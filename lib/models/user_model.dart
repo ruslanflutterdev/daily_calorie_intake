@@ -4,8 +4,16 @@ class UserModel {
   final double? height;
   final int? age;
   final String? target;
+  final String? activityLevel;
 
-  UserModel({this.gender, this.weight, this.height, this.age, this.target});
+  UserModel({
+    this.gender,
+    this.weight,
+    this.height,
+    this.age,
+    this.target,
+    this.activityLevel,
+  });
 
   UserModel copyWith({
     String? gender,
@@ -13,6 +21,7 @@ class UserModel {
     double? height,
     int? age,
     String? target,
+    String? activityLevel,
   }) {
     return UserModel(
       gender: gender ?? this.gender,
@@ -20,6 +29,7 @@ class UserModel {
       height: height ?? this.height,
       age: age ?? this.age,
       target: target ?? this.target,
+      activityLevel: activityLevel ?? this.activityLevel,
     );
   }
 }

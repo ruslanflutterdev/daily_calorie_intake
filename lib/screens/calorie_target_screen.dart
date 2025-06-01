@@ -10,6 +10,7 @@ class CalorieTargetScreen extends StatefulWidget {
 }
 
 class _CalorieTargetScreenState extends State<CalorieTargetScreen> {
+
   void navigateToActivity(BuildContext context, String target) {
     final userModel = ModalRoute.of(context)?.settings.arguments as UserModel?;
     final updatedModel =
