@@ -1,6 +1,6 @@
 import 'package:daily_calorie_intake/core/app_routes.dart';
-import 'package:daily_calorie_intake/models/user_model.dart';
 import 'package:flutter/material.dart';
+import '../provider/user_data_provider.dart';
 
 class CalorieTargetScreen extends StatefulWidget {
   const CalorieTargetScreen({super.key});
@@ -10,12 +10,9 @@ class CalorieTargetScreen extends StatefulWidget {
 }
 
 class _CalorieTargetScreenState extends State<CalorieTargetScreen> {
-
   void navigateToActivity(BuildContext context, String target) {
-    final userModel = ModalRoute.of(context)?.settings.arguments as UserModel?;
-    final updatedModel =
-        userModel?.copyWith(target: target) ?? UserModel(target: target);
-    Navigator.pushNamed(context, AppRoutes.activity, arguments: updatedModel);
+    UserDataProvider.of(context).updateUserData(target: target);
+    Navigator.pushNamed(context, AppRoutes.activity);
   }
 
   @override

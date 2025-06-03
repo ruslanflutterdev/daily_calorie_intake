@@ -1,6 +1,6 @@
 import 'package:daily_calorie_intake/core/app_routes.dart';
-import 'package:daily_calorie_intake/models/user_model.dart';
 import 'package:flutter/material.dart';
+import '../provider/user_data_provider.dart';
 import '../utils/calorie_calculator.dart';
 
 class CaloriesResultScreen extends StatelessWidget {
@@ -11,21 +11,20 @@ class CaloriesResultScreen extends StatelessWidget {
       context,
       AppRoutes.basicParameters,
       (route) => route.settings.name == AppRoutes.home,
-      arguments: UserModel(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final userModel = ModalRoute.of(context)?.settings.arguments as UserModel?;
+    final userDataProvider = UserDataProvider.of(context);
+    final userModel = userDataProvider.userModel;
 
     double? bmr;
     double? tdee;
     double? adjustedTdee;
     String errorMessage = '';
 
-    if (userModel != null &&
-        userModel.gender != null &&
+    if (userModel.gender != null &&
         userModel.weight != null &&
         userModel.height != null &&
         userModel.age != null &&
@@ -82,7 +81,7 @@ class CaloriesResultScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Рекомендованная суточная норма калорий для ${userModel?.target?.toLowerCase()}: ${adjustedTdee?.toStringAsFixed(2)} калорий',
+                  'Рекомендованная суточная норма калорий для ${userModel.target?.toLowerCase()}: ${adjustedTdee?.toStringAsFixed(2)} калорий',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),

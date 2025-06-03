@@ -1,6 +1,5 @@
 import 'package:daily_calorie_intake/core/app_routes.dart';
 import 'package:flutter/material.dart';
-import '../models/user_model.dart';
 
 class CalorieTitleScreen extends StatelessWidget {
   const CalorieTitleScreen({super.key});
@@ -9,7 +8,6 @@ class CalorieTitleScreen extends StatelessWidget {
     Navigator.pushNamed(
       context,
       AppRoutes.basicParameters,
-      arguments: UserModel(),
     );
   }
 

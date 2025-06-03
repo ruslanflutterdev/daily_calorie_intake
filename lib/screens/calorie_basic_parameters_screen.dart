@@ -1,6 +1,6 @@
 import 'package:daily_calorie_intake/core/app_routes.dart';
-import 'package:daily_calorie_intake/models/user_model.dart';
 import 'package:flutter/material.dart';
+import '../provider/user_data_provider.dart';
 
 class CalorieBasicParametersScreen extends StatefulWidget {
   const CalorieBasicParametersScreen({super.key});
@@ -17,22 +17,32 @@ class _CalorieBasicParametersScreenState
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final userDataProvider = UserDataProvider.of(context);
+    final userModel = userDataProvider.userModel;
+
+    _gender = userModel.gender;
+    if (userModel.weight != null) {
+      _weightController.text = userModel.weight.toString();
+    }
+    if (userModel.height != null) {
+      _heightController.text = userModel.height.toString();
+    }
+    if (userModel.age != null) {
+      _ageController.text = userModel.age.toString();
+    }
+  }
+
   void navigateToTarget(BuildContext context) {
-    final userData = ModalRoute.of(context)?.settings.arguments as UserModel?;
-    final updatedData =
-        userData?.copyWith(
-          gender: _gender,
-          weight: double.tryParse(_weightController.text),
-          height: double.tryParse(_heightController.text),
-          age: int.tryParse(_ageController.text),
-        ) ??
-        UserModel(
-          gender: _gender,
-          weight: double.tryParse(_weightController.text),
-          height: double.tryParse(_heightController.text),
-          age: int.tryParse(_ageController.text),
-        );
-    Navigator.pushNamed(context, AppRoutes.target, arguments: updatedData);
+    UserDataProvider.of(context).updateUserData(
+      gender: _gender,
+      weight: double.tryParse(_weightController.text),
+      height: double.tryParse(_heightController.text),
+      age: int.tryParse(_ageController.text),
+    );
+    Navigator.pushNamed(context, AppRoutes.target);
   }
 
   @override
