@@ -16,7 +16,7 @@ class _CalorieActivityScreenState extends State<CalorieActivityScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final userDataProvider = UserDataProvider.of(context);
-    _selectedActivityLevel = userDataProvider.userModel.activityLevel;
+    _selectedActivityLevel ??= userDataProvider.userModel.activityLevel;
   }
 
   void navigateToResult(BuildContext context) {
@@ -32,83 +32,61 @@ class _CalorieActivityScreenState extends State<CalorieActivityScreen> {
       appBar: AppBar(title: Text('Активность')),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Выберите ваш уровень физической активности',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            RadioListTile<String>(
-              title: Text('Сидячий образ жизни'),
-              subtitle: Text('мало или нет физической активности'),
-              value: 'sedentary',
-              groupValue: _selectedActivityLevel,
-              onChanged: (value) {
-                setState(() {
-                  _selectedActivityLevel = value;
-                });
-              },
-            ),
-            RadioListTile<String>(
-              title: Text('Умеренная активность'),
-              subtitle: Text('легкие упражнения или спорт 3-5 раз в неделю'),
-              value: 'light',
-              groupValue: _selectedActivityLevel,
-              onChanged: (value) {
-                setState(() {
-                  _selectedActivityLevel = value;
-                });
-              },
-            ),
-            RadioListTile<String>(
-              title: Text('Средняя активность'),
-              subtitle: Text('умеренные тренировки 6-7 раз в неделю'),
-              value: 'moderate',
-              groupValue: _selectedActivityLevel,
-              onChanged: (value) {
-                setState(() {
-                  _selectedActivityLevel = value;
-                });
-              },
-            ),
-            RadioListTile<String>(
-              title: Text('Высокая активность'),
-              subtitle: Text(
-                'интенсивные тренировки, физическая работа, спорт 6-7 раз в неделю',
+        child: RadioGroup<String>(
+          groupValue: _selectedActivityLevel,
+          onChanged: (value) {
+            setState(() {
+              _selectedActivityLevel = value;
+            });
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Выберите ваш уровень физической активности',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              value: 'high',
-              groupValue: _selectedActivityLevel,
-              onChanged: (value) {
-                setState(() {
-                  _selectedActivityLevel = value;
-                });
-              },
-            ),
-            RadioListTile<String>(
-              title: Text('очень высокая активность'),
-              subtitle: Text(
-                'профессиональные спортсмены, ежедневные интенсивные тренировки',
+              SizedBox(height: 10),
+              RadioListTile<String>(
+                title: Text('Сидячий образ жизни'),
+                subtitle: Text('мало или нет физической активности'),
+                value: 'sedentary',
               ),
-              value: 'very_high',
-              groupValue: _selectedActivityLevel,
-              onChanged: (value) {
-                setState(() {
-                  _selectedActivityLevel = value;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: _selectedActivityLevel != null
-                    ? () => navigateToResult(context)
-                    : null,
-                child: Text('К результату'),
+              RadioListTile<String>(
+                title: Text('Умеренная активность'),
+                subtitle: Text('легкие упражнения или спорт 3-5 раз в неделю'),
+                value: 'light',
               ),
-            ),
-          ],
+              RadioListTile<String>(
+                title: Text('Средняя активность'),
+                subtitle: Text('умеренные тренировки 6-7 раз в неделю'),
+                value: 'moderate',
+              ),
+              RadioListTile<String>(
+                title: Text('Высокая активность'),
+                subtitle: Text(
+                  'интенсивные тренировки, физическая работа, спорт 6-7 раз в неделю',
+                ),
+                value: 'high',
+              ),
+              RadioListTile<String>(
+                title: Text('очень высокая активность'),
+                subtitle: Text(
+                  'профессиональные спортсмены, ежедневные интенсивные тренировки',
+                ),
+                value: 'very_high',
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _selectedActivityLevel != null
+                      ? () => navigateToResult(context)
+                      : null,
+                  child: Text('К результату'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
